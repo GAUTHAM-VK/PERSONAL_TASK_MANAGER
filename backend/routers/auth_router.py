@@ -39,7 +39,11 @@ def login(payload: UserLogin):
 @router.get("/me", response_model=UserOut)
 def get_me(current_user: str = Depends(auth.get_current_user)):
     user = database.get_user_by_email(current_user)
+
     if user is None:
-        raise HTTPException(status_code=404, detail="User not found.")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
 
     return UserOut(id=user["id"], email=user["email"])

@@ -1,4 +1,5 @@
 from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 import database
@@ -22,15 +23,24 @@ def _row_to_task_response(row) -> TaskResponse:
 
 def _get_owned_task_or_error(task_id: int, current_user: str):
     """
-    Shared helper: fetch a task by id and enforce ownership.
-    - 404 if the task does not exist at all
-    - 403 if it exists but belongs to someone else
+    Fetch a task and ensure it belongs to the current user.
+    - 404 if task does not exist
+    - 403 if task belongs to another user
     """
     task = database.get_task_by_id(task_id)
+
     if task is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found.")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Task not found."
+        )
+
     if task["owner_email"] != current_user:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not your task.")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not your task."
+        )
+
     return task
 
 
@@ -58,8 +68,12 @@ def list_tasks(
     priority: Optional[str] = None,
     current_user: str = Depends(auth.get_current_user),
 ):
-    rows = database.get_tasks_for_user(current_user, status=status_filter, priority=priority)
-    return [_row_to_task_response(r) for r in rows]
+    rows = database.get_tasks_for_user(
+        owner_email=current_user,
+        status=status_filter,
+        priority=priority
+    )
+    return [_row_to_task_response(row) for row in rows]
 
 
 @router.get("/{task_id}", response_model=TaskResponse)
@@ -70,9 +84,12 @@ def get_task(task_id: int, current_user: str = Depends(auth.get_current_user)):
 
 @router.put("/{task_id}", response_model=TaskResponse)
 def update_task(
-    task_id: int, payload: TaskUpdate, current_user: str = Depends(auth.get_current_user)
+    task_id: int,
+    payload: TaskUpdate,
+    current_user: str = Depends(auth.get_current_user)
 ):
-    _get_owned_task_or_error(task_id, current_user)  # ownership check first
+    _get_owned_task_or_error(task_id, current_user)
+
     updated = database.update_task(
         task_id=task_id,
         title=payload.title,
@@ -85,9 +102,12 @@ def update_task(
 
 @router.patch("/{task_id}/status", response_model=TaskResponse)
 def update_status(
-    task_id: int, payload: TaskStatusUpdate, current_user: str = Depends(auth.get_current_user)
+    task_id: int,
+    payload: TaskStatusUpdate,
+    current_user: str = Depends(auth.get_current_user)
 ):
     _get_owned_task_or_error(task_id, current_user)
+
     updated = database.update_task_status(task_id, payload.status)
     return _row_to_task_response(updated)
 

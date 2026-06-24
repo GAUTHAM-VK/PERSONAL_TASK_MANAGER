@@ -1,16 +1,11 @@
 import sqlite3
 from pathlib import Path
-
 DB_PATH = Path(__file__).parent / "app.db"
-
-
 def get_connection():
     """Return a new connection. Row factory lets us access columns by name."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
-
-
 def init_db():
     """Create the users and tasks tables if they don't already exist."""
     conn = get_connection()
@@ -23,7 +18,6 @@ def init_db():
             hashed_password TEXT NOT NULL
         )
     """)
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,14 +30,8 @@ def init_db():
             FOREIGN KEY (owner_email) REFERENCES users (email)
         )
     """)
-
     conn.commit()
     conn.close()
-
-
-# ---------------------------------------------------------------------------
-# User helpers
-# ---------------------------------------------------------------------------
 
 def get_user_by_email(email: str):
     conn = get_connection()
@@ -52,8 +40,6 @@ def get_user_by_email(email: str):
     ).fetchone()
     conn.close()
     return row
-
-
 def create_user(email: str, hashed_password: str):
     conn = get_connection()
     cursor = conn.execute(
@@ -64,11 +50,6 @@ def create_user(email: str, hashed_password: str):
     new_id = cursor.lastrowid
     conn.close()
     return new_id
-
-
-# ---------------------------------------------------------------------------
-# Task helpers
-# ---------------------------------------------------------------------------
 
 def create_task(title, description, priority, status, due_date, owner_email):
     conn = get_connection()

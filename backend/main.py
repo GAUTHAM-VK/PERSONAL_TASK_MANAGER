@@ -5,17 +5,15 @@ import database
 from routers import auth_router, tasks_router
 
 app = FastAPI(
-    title="Personal Task Manager API",
+    title="Bridgeon Personal Task Manager API",
     description=(
-        "Multi-user task manager. Register, log in, and you'll receive a "
-        "session token. Click the **Authorize** button above and paste the "
-        "token (just the raw value, no 'Bearer ' prefix needed - Swagger adds "
-        "that for you) to unlock the protected endpoints below."
+        "Multi-user task manager API. Users can register, log in, "
+        "and manage their personal tasks securely."
     ),
     version="1.0.0",
 )
 
-# Allow the Streamlit frontend (running on a different port) to call this API.
+# Allow frontend requests (Streamlit running on another port)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,16 +22,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Create tables when server starts
 @app.on_event("startup")
 def on_startup():
     database.init_db()
 
-
+# Health route
 @app.get("/", tags=["Health"])
 def root():
-    return {"status": "ok", "message": "Task Manager API is running."}
+    return {
+        "status": "ok",
+        "message": "Bridgeon Personal Task Manager API is running."
+    }
 
-
+# Include routers
 app.include_router(auth_router.router)
 app.include_router(tasks_router.router)
