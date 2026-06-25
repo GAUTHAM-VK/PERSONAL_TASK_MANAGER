@@ -17,9 +17,9 @@ def register(payload: UserRegister):
         )
 
     hashed = auth.hash_password(payload.password)
-    new_id = database.create_user(payload.email, hashed)
+    new_id = database.create_user(payload.username, payload.email, hashed)
 
-    return UserOut(id=new_id, email=payload.email)
+    return UserOut(id=new_id, username=payload.username, email=payload.email)
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -33,7 +33,11 @@ def login(payload: UserLogin):
         )
 
     token = auth.create_session_token(user["email"])
-    return TokenResponse(access_token=token, email=user["email"])
+    return TokenResponse(
+        access_token=token,
+        email=user["email"],
+        username=user["username"]
+    )
 
 
 @router.get("/me", response_model=UserOut)
@@ -46,4 +50,8 @@ def get_me(current_user: str = Depends(auth.get_current_user)):
             detail="User not found.",
         )
 
-    return UserOut(id=user["id"], email=user["email"])
+    return UserOut(
+        id=user["id"],
+        username=user["username"],
+        email=user["email"]
+    )
