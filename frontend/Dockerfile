@@ -1,12 +1,13 @@
-FROM python:3.11-slim
+FROM python:3.10
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY frontend/requirements.txt .
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY frontend .
 
-EXPOSE 10000
+EXPOSE 8501
 
-CMD ["sh", "-c", "streamlit run app.py --server.port ${PORT:-10000} --server.address 0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

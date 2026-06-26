@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from dotenv import load_dotenv
 import database
 from routers import auth_router, tasks_router
+
+load_dotenv()  # <-- ONLY HERE
 
 app = FastAPI(
     title="Bridgeon Personal Task Manager API",
