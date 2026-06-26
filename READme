@@ -1,0 +1,351 @@
+# Personal Task Manager
+
+A full-stack Personal Task Manager application that enables users to securely manage their daily tasks through a modern web interface. The project features JWT authentication, a FastAPI REST API, a Streamlit frontend, and PostgreSQL for persistent data storage. The application is fully containerized using Docker and deployed on Render.
+
+---
+
+## Live Demo
+
+**Frontend:**
+https://personal-task-manager-frontend-dkhf.onrender.com
+
+**Backend API:**
+https://personal-task-manager-zflc.onrender.com
+
+**Swagger API Documentation:**
+https://personal-task-manager-zflc.onrender.com/docs
+
+**GitHub Repository:**
+`YOUR_GITHUB_REPOSITORY`
+
+---
+
+# Project Overview
+
+The Personal Task Manager is designed to help users organize and manage their daily tasks efficiently.
+
+Each registered user has a secure personal workspace where they can:
+
+* Register a new account
+* Log in securely
+* Create tasks
+* Update tasks
+* Delete tasks
+* Search tasks
+* Filter tasks
+* Track task completion
+* View task summary statistics
+
+The backend exposes REST APIs developed using FastAPI, while the frontend is built using Streamlit to provide an intuitive user interface.
+
+---
+
+# Features
+
+### Authentication
+
+* User Registration
+* Secure Login
+* JWT Authentication
+* Password Hashing using bcrypt
+
+### Task Management
+
+* Create Tasks
+* View Tasks
+* Update Tasks
+* Delete Tasks
+* Mark Tasks as Completed
+
+### Search & Filters
+
+* Search by Title
+* Search by Description
+* Filter by Status
+* Filter by Priority
+
+### Dashboard
+
+* Total Tasks
+* Pending Tasks
+* Completed Tasks
+
+### Deployment
+
+* Dockerized Backend
+* Dockerized Frontend
+* PostgreSQL Database
+* Cloud Deployment using Render
+
+---
+
+# 🛠 Technology Stack
+
+## Frontend
+
+* Streamlit
+* Python
+* Requests
+
+## Backend
+
+* FastAPI
+* Python
+* JWT Authentication
+* bcrypt
+
+## Database
+
+* PostgreSQL
+
+## Deployment
+
+* Docker
+* Render
+
+## Version Control
+
+* Git
+* GitHub
+
+---
+
+# System Architecture
+
+```
+                User
+                  │
+                  ▼
+      Streamlit Frontend (Render)
+                  │
+            REST API Requests
+                  │
+                  ▼
+       FastAPI Backend (Render)
+                  │
+                  ▼
+      PostgreSQL Database (Render)
+```
+
+---
+
+# Project Structure
+
+```
+PERSONAL_TASK_MANAGER
+│
+├── backend
+│   ├── routers
+│   ├── auth.py
+│   ├── database.py
+│   ├── models.py
+│   ├── schemas.py
+│   ├── main.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── frontend
+│   ├── assets
+│   ├── app.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── screenshots
+│
+├── README.md
+│
+└── .gitignore
+```
+
+---
+
+# API Endpoints
+
+## Authentication
+
+| Method | Endpoint       | Description         |
+| ------ | -------------- | ------------------- |
+| POST   | /auth/register | Register a new user |
+| POST   | /auth/login    | User Login          |
+
+---
+
+## Tasks
+
+| Method | Endpoint           |
+| ------ | ------------------ |
+| GET    | /tasks             |
+| GET    | /tasks/{id}        |
+| POST   | /tasks             |
+| PUT    | /tasks/{id}        |
+| PATCH  | /tasks/{id}/status |
+| DELETE | /tasks/{id}        |
+| GET    | /tasks/summary     |
+
+---
+
+# Installation
+
+## Clone Repository
+
+```bash
+git clone YOUR_GITHUB_REPOSITORY
+cd PERSONAL_TASK_MANAGER
+```
+
+---
+
+## Backend Setup
+
+```bash
+cd backend
+
+python -m venv venv
+
+source venv/bin/activate
+```
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Run Backend
+
+```bash
+uvicorn main:app --reload
+```
+
+---
+
+## Frontend Setup
+
+```bash
+cd frontend
+
+pip install -r requirements.txt
+
+streamlit run app.py
+```
+
+---
+
+# 🐳 Docker
+
+Backend
+
+```bash
+docker build -t backend .
+```
+
+Frontend
+
+```bash
+docker build -t frontend .
+```
+
+---
+
+# Deployment
+
+The application is deployed using **Render**.
+
+Services deployed:
+
+* Streamlit Frontend
+* FastAPI Backend
+* PostgreSQL Database
+
+---
+
+#  Screenshots
+
+ screenshots .
+
+Example:
+
+```
+screenshots/
+
+login.png
+
+register.png
+
+dashboard.png
+
+create-task.png
+
+task-detail.png
+
+swagger.png
+```
+
+---
+
+# 🔒 Authentication
+
+Authentication is implemented using JSON Web Tokens (JWT).
+
+Passwords are securely hashed using bcrypt before storing them in PostgreSQL.
+
+---
+
+# 📈 Future Enhancements
+
+* Email Verification
+* Password Reset
+* Task Categories
+* File Attachments
+* Notifications
+* Calendar Integration
+* Dark / Light Theme
+* Mobile Application
+* Team Collaboration
+* Task Reminders
+
+---
+
+# What I Learned
+
+During this project I gained practical experience in:
+
+* REST API Development
+* FastAPI
+* Streamlit
+* PostgreSQL
+* JWT Authentication
+* Docker
+* Render Deployment
+* Git & GitHub
+* API Integration
+* Environment Variables
+* Full Stack Development
+
+---
+
+# 👨‍💻 Author
+
+**Gautham vk**
+
+B.Tech Student
+
+Python Developer
+
+---
+
+#  Support
+
+If you found this project useful, consider giving it a on GitHub.
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
