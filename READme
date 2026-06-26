@@ -78,7 +78,7 @@ The backend exposes REST APIs developed using FastAPI, while the frontend is bui
 
 ---
 
-# 🛠 Technology Stack
+# Technology Stack
 
 ## Frontend
 
@@ -236,7 +236,7 @@ streamlit run app.py
 
 ---
 
-# 🐳 Docker
+# Docker
 
 Backend
 
@@ -296,7 +296,7 @@ Passwords are securely hashed using bcrypt before storing them in PostgreSQL.
 
 ---
 
-# 📈 Future Enhancements
+# Future Enhancements
 
 * Email Verification
 * Password Reset
